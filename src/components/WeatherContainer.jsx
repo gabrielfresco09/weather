@@ -3,6 +3,7 @@ import { getWeather } from "../api/requests";
 import SearchBar from "./SearchBar";
 import { unitOptions } from "../helpers/constants";
 import WeatherInfo from "./WeatherInfo";
+import { updateLastCities } from "../helpers/localStorage";
 
 const WeatherContainer = () => {
   const [currentCityWeather, setCurrentCityWeather] = useState({});
@@ -10,7 +11,7 @@ const WeatherContainer = () => {
   const [error, setError] = useState();
   const [queryParams, setQueryParams] = useState({
     city: "",
-    unit: unitOptions[0]
+    unit: unitOptions[0].value
   });
 
   const updateQueryParamValue = (name, value) => {
@@ -27,16 +28,18 @@ const WeatherContainer = () => {
   useEffect(() => {
     if (loading)
       getWeather(queryParams)
-        .then(({ data }) => setCurrentCityWeather(data))
+        .then(({ data }) => {
+          setCurrentCityWeather(data);
+          updateLastCities({ id: data.id, name: data.name });
+        })
         .catch(err => {
           if (err.response.status === 404) setError("City not found");
           else setError("An error ocurred, please try again");
         })
         .finally(() => setLoading(false));
-    else setQueryParams({ city: "", unit: queryParams.unit.value });
+    else setQueryParams({ city: "", unit: queryParams.unit });
   }, [loading]);
 
-  console.log("Current weather", currentCityWeather);
   return (
     <React.Fragment>
       <SearchBar
@@ -45,7 +48,7 @@ const WeatherContainer = () => {
         loading={loading}
         updateQueryParamValue={updateQueryParamValue}
       />
-      <WeatherInfo {...currentCityWeather} unit={queryParams.unit}/>
+      <WeatherInfo {...currentCityWeather} unit={queryParams.unit} />
       {error && <div>{error}</div>}
     </React.Fragment>
   );

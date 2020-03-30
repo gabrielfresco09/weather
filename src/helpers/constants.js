@@ -8,3 +8,5 @@ export const unitOptions = [
     value: "metric"
   }
 ];
+
+export const CITIES_LIST_KEY = "lastSearchedCities";
