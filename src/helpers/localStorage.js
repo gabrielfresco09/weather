@@ -2,7 +2,7 @@ import _ from "lodash";
 import { CITIES_LIST_KEY } from "./constants";
 
 export const updateLastCities = city => {
-  let lastSearchedCities = getLastSearchedCities();
+  const lastSearchedCities = getLastSearchedCities();
 
   const savedCityIndex = _.findIndex(lastSearchedCities, { id: city.id });
 
@@ -16,12 +16,20 @@ export const updateLastCities = city => {
     replaceCity(city, lastSearchedCities, oldestSearchedCityIndex);
   } else lastSearchedCities.push(getCityWithTime(city));
 
-  localStorage.setItem(CITIES_LIST_KEY, JSON.stringify(lastSearchedCities));
+  saveSearchedCities(lastSearchedCities);
+  return lastSearchedCities;
 };
 
 export const getLastSearchedCities = () => {
   const lastSearchedCities = JSON.parse(localStorage.getItem(CITIES_LIST_KEY));
   return lastSearchedCities ? lastSearchedCities : [];
+};
+
+export const deleteCity = id => {
+  const lastSearchedCities = getLastSearchedCities();
+  _.remove(lastSearchedCities, item => item.id === id);
+  saveSearchedCities(lastSearchedCities);
+  return lastSearchedCities;
 };
 
 const replaceCity = (newCity, cities, itemToReplaceIndex) =>
@@ -32,3 +40,6 @@ const getCityWithTime = city => {
   newCity.searchedTime = new Date().getTime();
   return newCity;
 };
+
+const saveSearchedCities = searchedCities =>
+  localStorage.setItem(CITIES_LIST_KEY, JSON.stringify(searchedCities));

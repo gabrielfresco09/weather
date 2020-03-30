@@ -3,7 +3,12 @@ import { getWeather } from "../api/requests";
 import SearchBar from "./SearchBar";
 import { unitOptions } from "../helpers/constants";
 import WeatherInfo from "./WeatherInfo";
-import { updateLastCities } from "../helpers/localStorage";
+import {
+  updateLastCities,
+  getLastSearchedCities,
+  deleteCity
+} from "../helpers/localStorage";
+import LastSearchedCities from "./LastSearchedCities";
 
 const WeatherContainer = () => {
   const [currentCityWeather, setCurrentCityWeather] = useState({});
@@ -13,6 +18,9 @@ const WeatherContainer = () => {
     city: "",
     unit: unitOptions[0].value
   });
+  const [lastSearchedCities, setLastSearchedCities] = useState(
+    getLastSearchedCities()
+  );
 
   const updateQueryParamValue = (name, value) => {
     const newQueryParams = Object.assign({}, queryParams);
@@ -25,12 +33,24 @@ const WeatherContainer = () => {
     setLoading(true);
   };
 
+  const handleLastSearchedCityClick = city => {
+    updateQueryParamValue("city", city);
+    getCurrentCityWeather();
+  };
+
+  const deleteCityById = cityId => {
+    const updatedCities = deleteCity(cityId);
+    setLastSearchedCities(updatedCities);
+  };
+
   useEffect(() => {
     if (loading)
       getWeather(queryParams)
         .then(({ data }) => {
           setCurrentCityWeather(data);
-          updateLastCities({ id: data.id, name: data.name });
+          setLastSearchedCities(
+            updateLastCities({ id: data.id, name: data.name })
+          );
         })
         .catch(err => {
           if (err.response.status === 404) setError("City not found");
@@ -49,6 +69,11 @@ const WeatherContainer = () => {
         updateQueryParamValue={updateQueryParamValue}
       />
       <WeatherInfo {...currentCityWeather} unit={queryParams.unit} />
+      <LastSearchedCities
+        cities={lastSearchedCities}
+        handleClick={handleLastSearchedCityClick}
+        deleteCity={deleteCityById}
+      />
       {error && <div>{error}</div>}
     </React.Fragment>
   );
