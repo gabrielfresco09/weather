@@ -9,6 +9,7 @@ import {
   deleteCity
 } from "../helpers/localStorage";
 import LastSearchedCities from "./LastSearchedCities";
+import CityLocation from "./CityLocation";
 
 const WeatherContainer = () => {
   const [currentCityWeather, setCurrentCityWeather] = useState({});
@@ -69,6 +70,7 @@ const WeatherContainer = () => {
         updateQueryParamValue={updateQueryParamValue}
       />
       <WeatherInfo {...currentCityWeather} unit={queryParams.unit} />
+      <CityLocation coordinates={currentCityWeather.coord} />
       <LastSearchedCities
         cities={lastSearchedCities}
         handleClick={handleLastSearchedCityClick}
