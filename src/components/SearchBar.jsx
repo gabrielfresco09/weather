@@ -27,18 +27,16 @@ const SearchBar = ({
 
   return (
     <div>
-      <input name="city" value={city || ""} onChange={handleChange} />
-      <select name="unit" onChange={handleChange} value={unit}>
-        {unitOptions.map(({ value, name }) => (
-          <option key={name} value={value}>
-            {name}
-          </option>
-        ))}
-      </select>
-      {error && <p>{error}</p>}
+      <input
+        name="city"
+        placeholder="Search city"
+        value={city || ""}
+        onChange={handleChange}
+      />
       <button disabled={loading} onClick={handleClick}>
         Buscar
       </button>
+      {error && <span>{error}</span>}
     </div>
   );
 };

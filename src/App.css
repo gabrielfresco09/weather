@@ -1,38 +1,129 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.flex {
   display: flex;
-  flex-direction: column;
+}
+
+.block-content {
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  height: 100vh;
+  background: linear-gradient(
+    340deg,
+    rgba(184, 220, 255, 1) 0%,
+    rgba(143, 188, 250, 1) 49%,
+    rgba(255, 255, 255, 1) 99%
+  );
+}
+
+.block-content .block-left {
+  width: 75%;
+  height: 100%;
+  padding: 0 1em;
+}
+
+.block-content .block-right {
+  width: 25%;
+  height: 100%;
+  padding: 1em;
+  border-left: 1px solid #ffffff80;
+}
+.block-right input {
+  margin: 4em 0 1em 0;
+  height: 30px;
+  border-radius: 50px 0 0 50px;
+  border: 1px solid #80808033;
+  background: #f3f3f3;
+  padding-left: 1em;
+}
+
+.block-right button {
+  height: 34px;
+  background: #5808c3;
+  border: none;
+  border-radius: 0 50px 50px 0;
+  padding: 0 2em;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.block-info {
+  padding: 2em 0 4em 0;
+  justify-content: space-between;
+  align-items: center;
+}
+.block-temp {
+  flex-direction: column;
+}
+.block-temp span {
+  font-size: 12px;
+  color: gray;
+  font-weight: 500;
+}
+.block-temp h1 {
+  font-size: 3em;
+  margin: 0;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.block-temp p {
+  margin: 0;
+}
+
+.block-details {
+  margin: 0 0 0 1.5em;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.block-details span {
+  font-size: 13px;
+  color: gray;
+  margin-right: 0.5em;
+}
+.block-details h3 {
+  margin: 0.5em 0 0 0;
+}
+
+.block-details h4,
+.block-details div {
+  margin: 0;
+}
+
+.content {
+  align-items: flex-start;
+}
+.block-extra {
+  align-items: center;
+}
+.extra-item {
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5em 1em;
+  margin-left: 2em;
+  color: #000000c7;
+  border-left: 1px solid #00000096;
+}
+.extra-item h4 {
+  margin: 0 1em 0 0;
+}
+
+.city-card {
+  border-radius: 4px;
+  padding: 1em;
+  align-items: center;
+  justify-content: space-between;
+  margin: 1em 0;
+  background: #ffffff63;
+}
+
+.city-card p {
+  margin: 0;
+}
+
+.select {
+  height: 34px;
+  border: none;
+  background: #ffffff63;
+  border-radius: 4px;
+  padding: 0.5em;
 }
