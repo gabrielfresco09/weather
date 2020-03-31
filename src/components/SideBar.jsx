@@ -9,7 +9,8 @@ const SideBar = ({
   updateQueryParamValue,
   cities,
   handleClick,
-  deleteCity
+  deleteCity,
+  apiCallError
 }) => {
   return (
     <div className="block-right">
@@ -17,6 +18,7 @@ const SideBar = ({
         {...queryParams}
         getCurrentCityWeather={getCurrentCityWeather}
         loading={loading}
+        apiCallError={apiCallError}
         updateQueryParamValue={updateQueryParamValue}
       />
       <LastSearchedCities

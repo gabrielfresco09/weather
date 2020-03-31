@@ -107,8 +107,8 @@ const WeatherContainer = () => {
         cities={lastSearchedCities}
         handleClick={handleLastSearchedCityClick}
         deleteCity={deleteCityById}
+        apiCallError={error}
       />
-      {error && <div>{error}</div>}
     </div>
   );
 };

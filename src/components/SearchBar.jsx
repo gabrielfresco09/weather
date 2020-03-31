@@ -5,13 +5,14 @@ const SearchBar = ({
   getCurrentCityWeather,
   loading,
   city,
-  unit,
-  updateQueryParamValue
+  updateQueryParamValue,
+  apiCallError
 }) => {
   const [error, setError] = useState();
 
   const handleClick = () => {
     if (city) {
+      setError();
       getCurrentCityWeather();
       return;
     }
@@ -36,7 +37,9 @@ const SearchBar = ({
       <button disabled={loading} onClick={handleClick}>
         Buscar
       </button>
-      {error && <span>{error}</span>}
+      {(error || apiCallError) && (
+        <p style={{ margin: 0 }}>{error ? error : apiCallError}</p>
+      )}
     </div>
   );
 };
