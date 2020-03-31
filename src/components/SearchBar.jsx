@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { unitOptions } from "../helpers/constants";
+import React, { useState } from "react";
 
 const SearchBar = ({
   getCurrentCityWeather,
@@ -13,7 +12,7 @@ const SearchBar = ({
   const handleClick = () => {
     if (city) {
       setError();
-      getCurrentCityWeather();
+      getCurrentCityWeather(true);
       return;
     }
     setError("Please enter a city");

@@ -4,8 +4,12 @@ const LastSearchedCities = ({ cities, handleClick, deleteCity }) => {
   return (
     <React.Fragment>
       {cities.map(city => (
-        <div className="flex city-card" key={city.id}>
-          <p onClick={() => handleClick(city.name)}>
+        <div
+          className="flex city-card"
+          key={city.id}
+          onClick={() => handleClick(city.name)}
+        >
+          <p>
             <strong>{city.name}</strong>, {city.country}
           </p>
           <img

@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { getWeather } from "../api/requests";
 import { unitOptions } from "../helpers/constants";
-import WeatherInfo from "./WeatherInfo";
+import WeatherInfo from "../components/WeatherInfo";
 import {
   updateLastCities,
   getLastSearchedCities,
   deleteCity
 } from "../helpers/localStorage";
-import CityLocation from "./CityLocation";
-import SideBar from "./SideBar";
+import CityLocation from "../components/CityLocation";
+import SideBar from "../components/SideBar";
 
 const WeatherContainer = () => {
   const [currentCityWeather, setCurrentCityWeather] = useState({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
+  const [shouldStoreCity, setShouldStoreCity] = useState({});
   const [queryParams, setQueryParams] = useState({
     city: "",
     unit: unitOptions[1].value
@@ -32,7 +33,7 @@ const WeatherContainer = () => {
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(currentPositionSuccess);
-  }, []);
+  }, [currentPositionSuccess]);
 
   const updateQueryParamValue = (name, value) => {
     const newQueryParams = Object.assign({}, queryParams);
@@ -40,14 +41,15 @@ const WeatherContainer = () => {
     setQueryParams(newQueryParams);
   };
 
-  const getCurrentCityWeather = () => {
+  const getCurrentCityWeather = shouldStoreCity => {
+    setShouldStoreCity(shouldStoreCity);
     setError(null);
     setLoading(true);
   };
 
   const handleLastSearchedCityClick = city => {
     updateQueryParamValue("city", city);
-    getCurrentCityWeather();
+    getCurrentCityWeather(false);
   };
 
   const deleteCityById = cityId => {
@@ -60,8 +62,7 @@ const WeatherContainer = () => {
       target: { value, name }
     } = e;
     updateQueryParamValue(name, value);
-    debugger;
-    getCurrentCityWeather();
+    getCurrentCityWeather(false);
   };
 
   useEffect(() => {
@@ -69,13 +70,14 @@ const WeatherContainer = () => {
       getWeather(queryParams)
         .then(({ data }) => {
           setCurrentCityWeather(data);
-          setLastSearchedCities(
-            updateLastCities({
-              id: data.id,
-              name: data.name,
-              country: data.sys.country
-            })
-          );
+          if (shouldStoreCity)
+            setLastSearchedCities(
+              updateLastCities({
+                id: data.id,
+                name: data.name,
+                country: data.sys.country
+              })
+            );
         })
         .catch(err => {
           if (err.response.status === 404) setError("City not found");
